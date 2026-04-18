@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Nithiyarasan P - AI Engineer Portfolio | Transformers Cinematic Experience">
+    <title>Nithiyarasan P | AI Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+</head>
+
+<body>
+    <!-- ===== CLICK-TO-ENTER OVERLAY (required by browsers for audio) ===== -->
+    <div id="enter-overlay" style="
+        position: fixed; inset: 0; z-index: 99999;
+        background: radial-gradient(ellipse at center, #0a0a12 0%, #000 100%);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        cursor: pointer; transition: opacity 0.8s ease, visibility 0.8s ease;
+    ">
+        <div style="text-align: center;">
+            <div style="
+                width: 80px; height: 80px; margin: 0 auto 30px;
+                border: 2px solid rgba(0, 242, 254, 0.4); border-radius: 50%;
+                display: flex; align-items: center; justify-content: center;
+                animation: enterPulse 2s ease-in-out infinite;
+            ">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                </svg>
+            </div>
+            <p style="
+                font-family: 'Orbitron', monospace; font-size: 11px;
+                letter-spacing: 6px; color: rgba(255,255,255,0.5);
+                text-transform: uppercase; margin: 0;
+            ">CLICK TO ENTER</p>
+        </div>
+    </div>
+    <style>
+        @keyframes enterPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0,242,254,0.15), 0 0 60px rgba(0,242,254,0.05); transform: scale(1); }
+            50% { box-shadow: 0 0 30px rgba(0,242,254,0.3), 0 0 80px rgba(0,242,254,0.1); transform: scale(1.05); }
+        }
+    </style>
+
+    <!-- ===== FLOATING SOUND TOGGLE ===== -->
+    <button id="sound-toggle" class="sound-toggle" type="button" aria-label="Toggle Sound">
+        <svg class="sound-on-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+        </svg>
+        <svg class="sound-off-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" style="display:none">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <line x1="23" y1="9" x2="17" y2="15" />
+            <line x1="17" y1="9" x2="23" y2="15" />
+        </svg>
+    </button>
+
+    <!-- ===== FLOATING NAV BAR ===== -->
+    <nav id="cyber-nav" class="cyber-nav hidden">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-link active" data-section="hero">HOME</a>
+            <a href="#about-section" class="nav-link" data-section="about-section">ABOUT</a>
+            <a href="#skills-section" class="nav-link" data-section="skills-section">SKILLS</a>
+            <a href="#projects-section" class="nav-link" data-section="projects-section">PROJECTS</a>
+            <a href="#experience-section" class="nav-link" data-section="experience-section">EXPERIENCE</a>
+            <a href="#contact-section" class="nav-link" data-section="contact-section">CONTACT</a>
+        </div>
+        <div class="nav-indicator" id="nav-indicator"></div>
+    </nav>
+
+    <!-- ===== FLOATING NARRATE BUTTON ===== -->
+    <div class="top-narrate-controls" id="top-narrate-controls">
+        <div class="narrate-container">
+            <button class="btn-narrate magnetic-btn" id="btn-narrate" type="button">
+                <span class="narrate-icon"></span> NARRATE
+            </button>
+        </div>
+        <div id="optimus-visualizer" class="optimus-visualizer">
+            <div class="visualizer-bars">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="visualizer-text">SCRIBE ACTIVE</div>
+        </div>
+    </div>
+
+    <!-- ===== OPTIMUS PRIME SCROLL-DRIVEN FRAME CANVAS ===== -->
+    <canvas id="optimus-canvas" class="optimus-canvas"></canvas>
+
+    <!-- ===== HERO VIDEO SECTION ===== -->
+    <section id="hero" class="hero-section">
+        <div class="video-wrapper" id="video-wrapper">
+            <video id="hero-video" playsinline preload="auto">
+                <source src="kling_20260415_VIDEO_Take_Image_1560_0.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+
+        <div class="hero-content" id="hero-content">
+            <div class="hero-left">
+                <span class="intro-greeting">Hi,</span>
+                <div class="hero-details" id="hero-details">
+                    <h2 class="hero-name">I'm <span class="name-highlight">Nithiyarasan P</span></h2>
+                    <p class="hero-role">THE AI ENGINEER</p>
+                </div>
+                <button class="btn-check-detail magnetic-btn" id="btn-check-detail" type="button">
+                    <span class="btn-pulse"></span>
+                    <span class="btn-inner">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                        CHECK DETAIL
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="scroll-down-indicator" id="scroll-indicator">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span class="scroll-text">SCROLL TO EXPLORE</span>
+        </div>
+    </section>
+
+    <!-- ===== IMMERSIVE ABOUT SECTION ===== -->
+    <section id="about-section" class="immersive-section about-section">
+        <div class="section-particles"></div>
+        <div class="section-grid-lines"></div>
+        <div class="section-content">
+            <div class="section-header">
+                <span class="section-tag glitch-title">[CLASSIFIED_DOSSIER]</span>
+                <h2 class="section-title glitch-title">About <span class="text-accent">Me</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="about-grid">
+                <div class="about-text scroll-reveal" data-delay="0.2">
+                    <p class="about-lead">I am a passionate <span class="text-energon">AI Engineer</span> driven by the
+                        pursuit of building intelligent systems that push the boundaries of what's possible.</p>
+                    <p class="about-body">Specializing in deep learning, computer vision, and generative AI &mdash; I
+                        transform complex ideas into cutting-edge solutions. Like Optimus Prime leading the Autobots, I
+                        lead projects from concept to deployment with precision, strategy, and relentless determination.
+                    </p>
+                    <div class="about-stats-row">
+                        <div class="mini-stat">
+                            <span class="mini-stat-value" data-count="10">0</span><span
+                                class="mini-stat-suffix">+</span>
+                            <span class="mini-stat-label">Projects</span>
+                        </div>
+                        <div class="mini-stat">
+                            <span class="mini-stat-value" data-count="5">0</span><span class="mini-stat-suffix">+</span>
+                            <span class="mini-stat-label">AI Models</span>
+                        </div>
+                        <div class="mini-stat">
+                            <span class="mini-stat-value" data-count="3">0</span><span class="mini-stat-suffix">+</span>
+                            <span class="mini-stat-label">Years Exp</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image-wrapper scroll-reveal" data-delay="0.4">
+                    <div class="about-image-frame">
+                        <img src="WhatsApp Image 2025-07-18 at 16.55.46_c6d8f4be.jpg" alt="Nithiyarasan P"
+                            class="about-image" />
+                        <div class="image-scan-line"></div>
+                        <div class="image-corner tl"></div>
+                        <div class="image-corner tr"></div>
+                        <div class="image-corner bl"></div>
+                        <div class="image-corner br"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== IMMERSIVE SKILLS SECTION ===== -->
+    <section id="skills-section" class="immersive-section skills-section">
+        <div class="section-particles"></div>
+        <div class="section-content">
+            <div class="section-header">
+                <span class="section-tag glitch-title">[CORE_PROTOCOLS]</span>
+                <h2 class="section-title glitch-title">Tech <span class="text-accent">Skills</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="skills-layout scroll-reveal" data-delay="0.1">
+                <!-- TOP CENTER: Spinning Text Wheel -->
+                <div class="spinning-wheel-wrapper">
+                    <div class="spinning-text-system" id="spinWheel">
+                        <svg class="spinning-svg" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <path id="r1" d="M600,600 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" />
+                                <path id="r2" d="M600,600 m-120,0 a120,120 0 1,1 240,0 a120,120 0 1,1 -240,0" />
+                                <path id="r3" d="M600,600 m-165,0 a165,165 0 1,1 330,0 a165,165 0 1,1 -330,0" />
+                                <path id="r4" d="M600,600 m-215,0 a215,215 0 1,1 430,0 a215,215 0 1,1 -430,0" />
+                                <path id="r5" d="M600,600 m-270,0 a270,270 0 1,1 540,0 a270,270 0 1,1 -540,0" />
+                                <path id="r6" d="M600,600 m-330,0 a330,330 0 1,1 660,0 a330,330 0 1,1 -660,0" />
+                                <path id="r7" d="M600,600 m-395,0 a395,395 0 1,1 790,0 a395,395 0 1,1 -790,0" />
+                                <path id="r8" d="M600,600 m-465,0 a465,465 0 1,1 930,0 a465,465 0 1,1 -930,0" />
+                                <path id="r9" d="M600,600 m-540,0 a540,540 0 1,1 1080,0 a540,540 0 1,1 -1080,0" />
+                                <path id="r10" d="M600,600 m-620,0 a620,620 0 1,1 1240,0 a620,620 0 1,1 -1240,0" />
+                            </defs>
+                            <g class="ring ring-cw ring-1"><text class="rt rt-1"><textPath href="#r1">PYTHON &#8226; PYTORCH &#8226; TENSORFLOW &#8226; PYTHON &#8226; PYTORCH &#8226; </textPath></text></g>
+                            <g class="ring ring-ccw ring-2"><text class="rt rt-2 skeleton"><textPath href="#r2">OPENCV &#8226; YOLO &#8226; MEDIAPIPE &#8226; OPENCV &#8226; YOLO &#8226; MEDIAPIPE &#8226; </textPath></text></g>
+                            <g class="ring ring-cw ring-3"><text class="rt rt-3"><textPath href="#r3">JAVASCRIPT &#8226; C++ &#8226; REACT &#8226; NODE.JS &#8226; JAVASCRIPT &#8226; C++ &#8226; REACT &#8226; </textPath></text></g>
+                            <g class="ring ring-ccw ring-4"><text class="rt rt-4 skeleton"><textPath href="#r4">STABLE DIFFUSION &#8226; GPT &#8226; RAG &#8226; LLMs &#8226; STABLE DIFFUSION &#8226; GPT &#8226; RAG &#8226; </textPath></text></g>
+                            <g class="ring ring-cw ring-5"><text class="rt rt-5"><textPath href="#r5">SCIKIT-LEARN &#8226; PANDAS &#8226; NUMPY &#8226; KERAS &#8226; SCIKIT-LEARN &#8226; PANDAS &#8226; NUMPY &#8226; KERAS &#8226; </textPath></text></g>
+                            <g class="ring ring-ccw ring-6"><text class="rt rt-6 skeleton"><textPath href="#r6">DOCKER &#8226; GIT &#8226; AWS &#8226; LINUX &#8226; FLASK &#8226; DOCKER &#8226; GIT &#8226; AWS &#8226; LINUX &#8226; FLASK &#8226; </textPath></text></g>
+                            <g class="ring ring-cw ring-7"><text class="rt rt-7"><textPath href="#r7">COMPUTER VISION &#8226; AI &amp; ML &#8226; DEEP LEARNING &#8226; NLP &#8226; COMPUTER VISION &#8226; AI &amp; ML &#8226; DEEP LEARNING &#8226; </textPath></text></g>
+                            <g class="ring ring-ccw ring-8"><text class="rt rt-8 skeleton"><textPath href="#r8">GENERATIVE AI &#8226; TRANSFORMERS &#8226; FINE-TUNING &#8226; PROMPT ENGINEERING &#8226; GENERATIVE AI &#8226; TRANSFORMERS &#8226; </textPath></text></g>
+                            <g class="ring ring-cw ring-9"><text class="rt rt-9"><textPath href="#r9">HTML &#8226; CSS &#8226; TAILWIND &#8226; THREE.JS &#8226; GSAP &#8226; FIGMA &#8226; HTML &#8226; CSS &#8226; TAILWIND &#8226; THREE.JS &#8226; GSAP &#8226; FIGMA &#8226; </textPath></text></g>
+                            <g class="ring ring-ccw ring-10"><text class="rt rt-10 skeleton"><textPath href="#r10">TENSORFLOW &#8226; PYTORCH &#8226; OPENCV &#8226; PYTHON &#8226; JAVASCRIPT &#8226; C++ &#8226; STABLE DIFFUSION &#8226; GPT &#8226; TENSORFLOW &#8226; PYTORCH &#8226; OPENCV &#8226; </textPath></text></g>
+                        </svg>
+                        <button class="spin-btn" id="spinBtn" aria-label="Spin the wheel">
+                            <span class="spin-btn-icon">&#10227;</span>
+                            <span class="spin-btn-text">SPIN</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- BOTTOM LEFT: Transformers Leaderboard -->
+                <div class="leaderboard-panel" id="leaderboard-panel">
+                    <div class="lb-header">
+                        <div class="lb-header-left">
+                            <div class="lb-insignia">
+                                <svg viewBox="0 0 100 100" width="28" height="28">
+                                    <polygon points="50,5 62,35 95,35 68,55 78,90 50,70 22,90 32,55 5,35 38,35" fill="none" stroke="#c084fc" stroke-width="3"/>
+                                    <polygon points="50,20 57,38 77,38 61,50 67,68 50,57 33,68 39,50 23,38 43,38" fill="rgba(192,132,252,0.3)" stroke="none"/>
+                                </svg>
+                            </div>
+                            <div class="lb-title-group">
+                                <span class="lb-tag">POWER_RANKINGS</span>
+                                <span class="lb-title">LEADERBOARD</span>
+                            </div>
+                        </div>
+                        <div class="lb-faction-toggle" id="lb-faction-toggle">
+                            <span class="lb-faction-label active" data-faction="autobot">&#9876; AUTOBOT</span>
+                            <span class="lb-faction-label" data-faction="decepticon">&#9760; DECEPTICON</span>
+                        </div>
+                    </div>
+                    <div class="lb-body">
+                        <div class="lb-row lb-rank-1" data-rank="1">
+                            <div class="lb-rank-badge"><span class="lb-rank-num">01</span><div class="lb-rank-glow"></div></div>
+                            <div class="lb-info"><span class="lb-skill-name">Python</span><span class="lb-class">PRIME CLASS</span></div>
+                            <div class="lb-power"><div class="lb-power-bar"><div class="lb-power-fill" data-power="95" style="--lb-color:#ffd700"></div></div><span class="lb-power-val">95</span></div>
+                            <div class="lb-chevron">&#9656;</div>
+                        </div>
+                        <div class="lb-row lb-rank-2" data-rank="2">
+                            <div class="lb-rank-badge"><span class="lb-rank-num">02</span><div class="lb-rank-glow"></div></div>
+                            <div class="lb-info"><span class="lb-skill-name">HTML</span><span class="lb-class">COMMANDER</span></div>
+                            <div class="lb-power"><div class="lb-power-bar"><div class="lb-power-fill" data-power="94" style="--lb-color:#c084fc"></div></div><span class="lb-power-val">94</span></div>
+                            <div class="lb-chevron">&#9656;</div>
+                        </div>
+                        <div class="lb-row lb-rank-3" data-rank="3">
+                            <div class="lb-rank-badge"><span class="lb-rank-num">03</span><div class="lb-rank-glow"></div></div>
+                            <div class="lb-info"><span class="lb-skill-name">CSS (Tailwind)</span><span class="lb-class">LIEUTENANT</span></div>
+                            <div class="lb-power"><div class="lb-power-bar"><div class="lb-power-fill" data-power="92" style="--lb-color:#00f2fe"></div></div><span class="lb-power-val">92</span></div>
+                            <div class="lb-chevron">&#9656;</div>
+                        </div>
+                        <div class="lb-row" data-rank="4">
+                            <div class="lb-rank-badge"><span class="lb-rank-num">04</span></div>
+                            <div class="lb-info"><span class="lb-skill-name">JavaScript</span><span class="lb-class">WARRIOR</span></div>
+                            <div class="lb-power"><div class="lb-power-bar"><div class="lb-power-fill" data-power="90" style="--lb-color:#60a5fa"></div></div><span class="lb-power-val">90</span></div>
+                            <div class="lb-chevron">&#9656;</div>
+                        </div>
+                        <div class="lb-row" data-rank="5">
+                            <div class="lb-rank-badge"><span class="lb-rank-num">05</span></div>
+                            <div class="lb-info"><span class="lb-skill-name">MERN</span><span class="lb-class">WARRIOR</span></div>
+                            <div class="lb-power"><div class="lb-power-bar"><div class="lb-power-fill" data-power="90" style="--lb-color:#60a5fa"></div></div><span class="lb-power-val">90</span></div>
+                            <div class="lb-chevron">&#9656;</div>
+                        </div>
+                        <div class="lb-row" data-rank="6">
+                            <div class="lb-rank-badge"><span class="lb-rank-num">06</span></div>
+                            <div class="lb-info"><span class="lb-skill-name">SQL</span><span class="lb-class">SCOUT</span></div>
+                            <div class="lb-power"><div class="lb-power-bar"><div class="lb-power-fill" data-power="88" style="--lb-color:#facc15"></div></div><span class="lb-power-val">88</span></div>
+                            <div class="lb-chevron">&#9656;</div>
+                        </div>
+                        <div class="lb-row" data-rank="7">
+                            <div class="lb-rank-badge"><span class="lb-rank-num">07</span></div>
+                            <div class="lb-info"><span class="lb-skill-name">LLM</span><span class="lb-class">SCOUT</span></div>
+                            <div class="lb-power"><div class="lb-power-bar"><div class="lb-power-fill" data-power="85" style="--lb-color:#f87171"></div></div><span class="lb-power-val">85</span></div>
+                            <div class="lb-chevron">&#9656;</div>
+                        </div>
+                        <div class="lb-row" data-rank="8">
+                            <div class="lb-rank-badge"><span class="lb-rank-num">08</span></div>
+                            <div class="lb-info"><span class="lb-skill-name">n8n</span><span class="lb-class">SCOUT</span></div>
+                            <div class="lb-power"><div class="lb-power-bar"><div class="lb-power-fill" data-power="85" style="--lb-color:#f87171"></div></div><span class="lb-power-val">85</span></div>
+                            <div class="lb-chevron">&#9656;</div>
+                        </div>
+                    </div>
+                    <div class="lb-footer">
+                        <div class="lb-energon-meter">
+                            <span class="lb-energon-label">ENERGON LEVEL</span>
+                            <div class="lb-energon-track"><div class="lb-energon-fill" id="lb-energon-fill"></div></div>
+                            <span class="lb-energon-pct">89%</span>
+                        </div>
+                        <span class="lb-footer-status"><span class="lb-status-dot"></span> CYBERTRON UPLINK ACTIVE</span>
+                    </div>
+                </div>
+
+                <!-- BOTTOM RIGHT: Transformer Bot Image -->
+                <div class="transformer-bot-wrapper">
+                    <img src="transformer-bot.png" alt="Transformer Bot" class="transformer-bot-img" />
+                    <div class="transformer-bot-glow"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== IMMERSIVE PROJECTS SECTION ===== -->
+    <section id="projects-section" class="immersive-section projects-section">
+        <div class="section-particles"></div>
+        <div class="section-content">
+            <div class="section-header">
+                <span class="section-tag glitch-title">[MISSION_ARCHIVES]</span>
+                <h2 class="section-title glitch-title">Featured <span class="text-accent">Creations</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="carousel-container" id="projectCarousel">
+                <button class="carousel-btn carousel-prev" id="carouselPrev">&#10094;</button>
+                <div class="carousel-viewport">
+                    <div class="carousel-track" id="carouselTrack">
+                        <div class="carousel-card" data-index="0">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">PRIME</span>
+                                </div>
+                                <div class="tf-card-id">01</div>
+                                <h3 class="tf-card-name">Voice Agent</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">An intelligent conversational AI capable of real-time voice interactions, intent recognition, and natural language generation.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:95%"></div></div>
+                                    <span class="tf-stat-val">PWR 95</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">LLM</span><span class="tag">Speech-to-Text</span><span class="tag">NLP</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-01</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="1">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">COMMANDER</span>
+                                </div>
+                                <div class="tf-card-id">02</div>
+                                <h3 class="tf-card-name">Dataset Generator</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Automated pipeline for generating, augmenting, and annotating massive synthetic datasets for training deep learning models.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:92%"></div></div>
+                                    <span class="tf-stat-val">PWR 92</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">Python</span><span class="tag">OpenCV</span><span class="tag">Data Eng</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-02</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="2">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">LIEUTENANT</span>
+                                </div>
+                                <div class="tf-card-id">03</div>
+                                <h3 class="tf-card-name">Python Tutorial Web</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Interactive web platform offering comprehensive Python programming tutorials, live code execution, and ML examples.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:88%"></div></div>
+                                    <span class="tf-stat-val">PWR 88</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">HTML/CSS</span><span class="tag">JS</span><span class="tag">Python</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-03</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="3">
+                            <div class="card-inner tf-card tf-decepticon">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">DECEPTICON</span>
+                                    <span class="tf-card-rank">WARRIOR</span>
+                                </div>
+                                <div class="tf-card-id">04</div>
+                                <h3 class="tf-card-name">AMLS</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Comprehensive Attendance Management System for tracking student or employee presence, featuring real-time reporting and analytics.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:94%"></div></div>
+                                    <span class="tf-stat-val">PWR 94</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">Web App</span><span class="tag">Database</span><span class="tag">System</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-04</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="4">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">SCOUT</span>
+                                </div>
+                                <div class="tf-card-id">05</div>
+                                <h3 class="tf-card-name">Crowd Detection</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Computer vision application for real-time crowd density estimation and movement tracking in public surveillance feeds.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:90%"></div></div>
+                                    <span class="tf-stat-val">PWR 90</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">YOLO</span><span class="tag">OpenCV</span><span class="tag">CNN</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-05</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="5">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">SCOUT</span>
+                                </div>
+                                <div class="tf-card-id">06</div>
+                                <h3 class="tf-card-name">Fabric Identifier</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Deep learning model trained to accurately classify textile materials and detect microscopic fabric defects.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:86%"></div></div>
+                                    <span class="tf-stat-val">PWR 86</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">TensorFlow</span><span class="tag">Vision</span><span class="tag">ResNet</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-06</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="6">
+                            <div class="card-inner tf-card tf-decepticon">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">DECEPTICON</span>
+                                    <span class="tf-card-rank">COMMANDER</span>
+                                </div>
+                                <div class="tf-card-id">07</div>
+                                <h3 class="tf-card-name">Federated Stroke</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Privacy-preserving federated learning framework for predicting stroke risk across distributed hospital datasets.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:96%"></div></div>
+                                    <span class="tf-stat-val">PWR 96</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">FL</span><span class="tag">Healthcare</span><span class="tag">ML</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-07</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="7">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">WARRIOR</span>
+                                </div>
+                                <div class="tf-card-id">08</div>
+                                <h3 class="tf-card-name">Water Quality AI</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">IoT-integrated ML system that predicts water potability based on chemical sensor data streams.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:87%"></div></div>
+                                    <span class="tf-stat-val">PWR 87</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">Scikit-Learn</span><span class="tag">IoT</span><span class="tag">Data</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-08</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="8">
+                            <div class="card-inner tf-card tf-decepticon">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">DECEPTICON</span>
+                                    <span class="tf-card-rank">LIEUTENANT</span>
+                                </div>
+                                <div class="tf-card-id">09</div>
+                                <h3 class="tf-card-name">Class Monitor</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Live class monitoring system using facial and emotion recognition to gauge student engagement and attention.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:91%"></div></div>
+                                    <span class="tf-stat-val">PWR 91</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">Face ID</span><span class="tag">Emotion AI</span><span class="tag">CV</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-09</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="9">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">SCOUT</span>
+                                </div>
+                                <div class="tf-card-id">10</div>
+                                <h3 class="tf-card-name">News Classifier</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">NLP-based categorization engine that automatically sorts news articles and detects clickbait or fake news.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:84%"></div></div>
+                                    <span class="tf-stat-val">PWR 84</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">NLP</span><span class="tag">BERT</span><span class="tag">Python</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-10</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="10">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">LIEUTENANT</span>
+                                </div>
+                                <div class="tf-card-id">11</div>
+                                <h3 class="tf-card-name">Skin AI</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Dermatological image analysis tool for preliminary identification of skin diseases and melanoma.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:93%"></div></div>
+                                    <span class="tf-stat-val">PWR 93</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">CNN</span><span class="tag">MedTech</span><span class="tag">Keras</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-11</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="11">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">WARRIOR</span>
+                                </div>
+                                <div class="tf-card-id">12</div>
+                                <h3 class="tf-card-name">E-commerce Hub</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Full-stack e-commerce platform with dynamic AI-powered product recommendations and secure checkout.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:89%"></div></div>
+                                    <span class="tf-stat-val">PWR 89</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">MERN</span><span class="tag">Stripe</span><span class="tag">React</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-12</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="12">
+                            <div class="card-inner tf-card tf-decepticon">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">DECEPTICON</span>
+                                    <span class="tf-card-rank">SCOUT</span>
+                                </div>
+                                <div class="tf-card-id">13</div>
+                                <h3 class="tf-card-name">Social Connect</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Real-time social media application featuring live chat, content feeds, and AI content moderation.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:85%"></div></div>
+                                    <span class="tf-stat-val">PWR 85</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">Node.js</span><span class="tag">Socket.io</span><span class="tag">MongoDB</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-13</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-index="13">
+                            <div class="card-inner tf-card tf-autobot">
+                                <div class="tf-card-scanlines"></div>
+                                <div class="tf-card-header">
+                                    <span class="tf-card-faction">AUTOBOT</span>
+                                    <span class="tf-card-rank">SCOUT</span>
+                                </div>
+                                <div class="tf-card-id">14</div>
+                                <h3 class="tf-card-name">Recipe Hub</h3>
+                                <div class="tf-card-divider"></div>
+                                <p class="tf-card-desc">Smart recipe website with ingredient-based search algorithms and personalized meal planning.</p>
+                                <div class="tf-card-stats">
+                                    <div class="tf-stat-bar"><div class="tf-stat-fill" style="width:82%"></div></div>
+                                    <span class="tf-stat-val">PWR 82</span>
+                                </div>
+                                <div class="tf-card-tags"><span class="tag">JavaScript</span><span class="tag">API</span><span class="tag">UI/UX</span></div>
+                                <div class="tf-card-footer">
+                                    <span class="tf-card-serial">TF-2026-14</span>
+                                    <span class="tf-card-status">&#9679; ONLINE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn carousel-next" id="carouselNext">&#10095;</button>
+                <div class="carousel-dots" id="carouselDots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== IMMERSIVE EXPERIENCE TIMELINE ===== -->
+    <section id="experience-section" class="immersive-section experience-section">
+        <div class="section-particles"></div>
+        <div class="section-content">
+            <div class="section-header">
+                <span class="section-tag glitch-title">[BATTLE_LOG]</span>
+                <h2 class="section-title glitch-title">Experience <span class="text-accent">Timeline</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item scroll-reveal" data-delay="0.1">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2026</span>
+                        <h3 class="timeline-title">Freelancing & Graduation</h3>
+                        <p class="timeline-desc">Completed B.E. in Computer Science and Engineering. Started freelancing career delivering custom AI and software solutions.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item scroll-reveal" data-delay="0.2">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2025</span>
+                        <h3 class="timeline-title">Internships & Certifications</h3>
+                        <p class="timeline-desc">Completed AI Internship at Femtosoft and Full Stack Developer Internship at CMRL. Earned Microsoft (Foundation of AI & ML) and IBM (Foundation of AI Agents) certifications.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item scroll-reveal" data-delay="0.3">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2024</span>
+                        <h3 class="timeline-title">Machine Learning Projects</h3>
+                        <p class="timeline-desc">Developed and deployed multiple Machine Learning projects, building hands-on experience with deep learning and computer vision.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item scroll-reveal" data-delay="0.4">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2023</span>
+                        <h3 class="timeline-title">Machine Learning Foundations</h3>
+                        <p class="timeline-desc">Dedicated focus to mastering Machine Learning algorithms, statistical modeling, and data science principles.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item scroll-reveal" data-delay="0.5">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2022</span>
+                        <h3 class="timeline-title">Python Mastered</h3>
+                        <p class="timeline-desc">Mastered core and advanced Python programming, laying the strong software engineering foundation for future AI development.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== IMMERSIVE CONTACT SECTION ===== -->
+    <section id="contact-section" class="immersive-section contact-section">
+        <div class="section-particles"></div>
+        <div class="section-content">
+            <div class="section-header">
+                <span class="section-tag glitch-title">[OPEN_FREQUENCY]</span>
+                <h2 class="section-title glitch-title">Get In <span class="text-accent">Touch</span></h2>
+                <div class="section-divider"></div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-text scroll-reveal" data-delay="0.1">
+                    <p class="contact-lead">Have a mission in mind? Let's build the future together.</p>
+                    <p class="contact-body">Whether it's a cutting-edge AI project, a collaboration opportunity, or just
+                        a conversation about the future of technology &mdash; I'm always ready to connect.</p>
+                </div>
+                <div class="contact-links scroll-reveal" data-delay="0.2">
+                    <a href="mailto:nithi20050426@gmail.com" class="contact-link-card magnetic-btn" id="contact-email">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                            <path d="M22 4l-10 8L2 4" />
+                        </svg>
+                        <span>Email</span>
+                    </a>
+                    <a href="https://github.com/Nithi2005" target="_blank" class="contact-link-card magnetic-btn"
+                        id="contact-github">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/nithiyarasan-p-0860072a7?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank"
+                        class="contact-link-card magnetic-btn" id="contact-linkedin">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.5">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                            <rect x="2" y="9" width="4" height="12" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
+                        <span>LinkedIn</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <div class="footer-line"></div>
+        <p class="footer-text">Designed & Built by <span class="text-accent">Nithiyarasan P</span> &mdash; Till All Are One
+        </p>
+    </footer>
+
+    <!-- ===== ZOOM FLASH ===== -->
+    <div id="zoom-flash" class="zoom-flash"></div>
+
+    <!-- ===== NEW VIDEO SECTION ===== -->
+    <section id="new-video-section" class="new-video-section">
+        <div class="new-video-wrapper">
+            <video id="new-video" playsinline preload="auto">
+                <source src="New_Video.mp4" type="video/mp4">
+            </video>
+            <!-- 5 golden 3D stars (last 6s watermark cover) -->
+            <div class="wm-blocker" id="wm-blocker">
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+            </div>
+            <div class="new-video-gradient"></div>
+        </div>
+    </section>
+
+    <!-- ===== DETAIL SECTION (after video) ===== -->
+    <section id="detail-section" class="detail-section">
+        <div class="detail-bg-particles"></div>
+        <div class="detail-content">
+            <div class="detail-card-wrapper">
+                <div class="detail-card">
+                    <span class="detail-label">PORTFOLIO</span>
+                    <div class="detail-divider-top"></div>
+                    <h2 class="detail-name">Nithiyarasan P</h2>
+                    <p class="detail-title">THE AI ENGINEER</p>
+                    <div class="detail-divider"></div>
+                    <p class="detail-bio">
+                        Passionate about building intelligent systems that push the boundaries
+                        of what's possible. Specializing in deep learning, computer vision,
+                        and generative AI &mdash; transforming ideas into reality.
+                    </p>
+                    <div class="detail-stats">
+                        <div class="stat">
+                            <span class="stat-number">AI</span>
+                            <span class="stat-label">Engineering</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">ML</span>
+                            <span class="stat-label">Deep Learning</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">CV</span>
+                            <span class="stat-label">Computer Vision</span>
+                        </div>
+                    </div>
+                    <div class="detail-actions">
+                        <button class="btn-replay magnetic-btn" id="btn-replay" type="button">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M1 4v6h6M23 20v-6h-6" />
+                                <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15" />
+                            </svg>
+                            REPLAY
+                        </button>
+                        <button class="btn-home magnetic-btn" id="btn-home" type="button">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                                <polyline points="9 22 9 12 15 12 15 22" />
+                            </svg>
+                            HOME
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
