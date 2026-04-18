@@ -195,7 +195,7 @@
     if (canvas && ctx) {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
-        preloadFrames();
+        // Preload frames later to avoid blocking the initial video load
     }
 
     // ========================================
@@ -224,6 +224,11 @@
                     heroVideo.currentTime = 0;
                     heroVideo.play().catch(() => {});
                 }
+
+                // Defer loading 121 heavy frames until after the video starts to prevent network choking
+                setTimeout(() => {
+                    if (canvas && ctx) preloadFrames();
+                }, 1500);
 
                 setTimeout(() => {
                     if (heroContent) heroContent.classList.add('visible');
