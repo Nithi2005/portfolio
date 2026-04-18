@@ -643,7 +643,7 @@
     const optimusVisualizer = document.getElementById('optimus-visualizer');
     
     if (btnNarrate) {
-        let narrateAudio = new Audio('assets/audio/narration.mp3');
+        let narrateAudio = new Audio('https://res.cloudinary.com/ddfawpge4/video/upload/v1776499262/narration_khw5am.mp3');
         let isPlaying = false;
         
         // --- AUTO-SCROLL TIMINGS (EXACT from audio) ---
